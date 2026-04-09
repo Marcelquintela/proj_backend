@@ -1,6 +1,8 @@
 # Proj_Autocapacita
 
-API simples em FastAPI para cadastro de usuários e análise de intenção de texto.
+Autocapacitação em desenvolvimento backend em python e >net para desenvolvimento de agentes de inteligencia artificial.
+
+Atividade 1: API simples em FastAPI para cadastro de usuários e análise de intenção de texto.
 
 ## Estrutura
 
@@ -62,15 +64,3 @@ Com a API rodando, acesse:
 - `http://127.0.0.1:8000/docs`
 - `http://127.0.0.1:8000/redoc`
 
-## Subindo para o GitHub
-
-Depois de criar um repositório vazio no GitHub, execute no bash:
-
-```bash
-git init
-git add .
-git commit -m "chore: initial project setup"
-git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
-git push -u origin main
-```
