@@ -1,0 +1,4 @@
+black>=26,<27
+isort>=8,<9
+pydocstyle>=6.3,<7
+pytest>=8,<9

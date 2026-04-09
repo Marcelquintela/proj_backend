@@ -2,11 +2,18 @@
 
 
 def classify_intent(text: str) -> str:
-    """Classifica a intenção principal a partir do texto informado."""
+    """
+    Classifica a intenção principal a partir do texto informado.
 
-    normalized_text = text.lower()
+    Args:
+        text (str): Texto recebido para análise.
 
-    if "compra" in normalized_text:
+    Returns:
+        str: Intenção identificada.
+    """
+    normalized_text = text.lower().strip()
+
+    if any(word in normalized_text for word in ["compra", "comprar"]):
         return "compra"
 
     return "outro"

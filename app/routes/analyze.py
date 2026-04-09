@@ -11,6 +11,5 @@ router = APIRouter()
 @router.post("/analyze", response_model=AnalyzeResponse)
 def analyze_text(analyze: AnalyzeRequest) -> AnalyzeResponse:
     """Recebe um texto e retorna a intenção classificada."""
-
     intent = classify_intent(analyze.text)
     return AnalyzeResponse(intent=intent)
