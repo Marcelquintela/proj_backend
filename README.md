@@ -2,7 +2,10 @@
 
 Autocapacitação em desenvolvimento backend em Python e .NET para criação de APIs e agentes de inteligência artificial.
 
-Atividade 1: API simples em FastAPI para cadastro de usuários e análise de intenção de texto.
+## Escopo de estudo
+
+- Dia 1 (atividade 1): API em FastAPI para cadastro de usuários e análise de intenção de texto.
+- Dia 2: evolução com endpoint de agente, contrato de entrada/saída mais rico e organização de rotas para crescimento do projeto.
 
 ## Estrutura
 
@@ -11,6 +14,12 @@ Atividade 1: API simples em FastAPI para cadastro de usuários e análise de int
 - `app/models/`: modelos de entrada e saída
 - `app/services/`: regras de negócio
 - `tests/`: testes automatizados
+
+Arquivos relevantes de modelagem:
+
+- `app/models/analyze.py`: contratos de entrada/saída da análise
+- `app/models/user.py`: contratos de entrada/saída de usuários
+- `app/models/schemas.py`: contratos de entrada/saída do agente
 
 ## Requisitos
 
@@ -202,7 +211,12 @@ Request:
 
 ```json
 {
-  "message": "Estou com erro no acesso"
+  "message": "Estou com erro no acesso",
+  "agent_type": "suporte",
+  "user_name": "Maria",
+  "context": {
+    "canal": "web"
+  }
 }
 ```
 
@@ -210,7 +224,9 @@ Response:
 
 ```json
 {
-  "response": "Lamento ouvir que você está enfrentando um problema.\n Por favor, forneça mais detalhes para que eu possa ajudar."
+  "response": "Maria, lamento ouvir que você está enfrentando um problema.\nPor favor, forneça mais detalhes para que eu possa ajudar.",
+  "agent_type": "suporte",
+  "intent": "suporte_tecnico"
 }
 ```
 
@@ -219,3 +235,4 @@ Response:
 Com a API rodando, acesse:
 
 - `http://127.0.0.1:8000/docs`
+- `http://127.0.0.1:8000/redoc`

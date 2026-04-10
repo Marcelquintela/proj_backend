@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from app.models.analyze import AnalyzeRequest, AnalyzeResponse
 from app.services.analyze import classify_intent
 
-router = APIRouter()
+router = APIRouter(prefix="/api/v1", tags=["analyze"])
 
 
 @router.post("/analyze", response_model=AnalyzeResponse)
