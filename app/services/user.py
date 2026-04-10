@@ -1,6 +1,6 @@
 """Serviços relacionados a usuário."""
 
-from app.models.user import CreateUserResponse, CreateUser
+from app.models.user import CreateUser, CreateUserResponse
 
 
 def create_user_service(user: CreateUser) -> CreateUserResponse:

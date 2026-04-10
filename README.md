@@ -45,6 +45,40 @@ uvicorn app.main:app --reload
 
 ## Ferramentas de qualidade
 
+### Verificar se black, isort e pytest estão no PATH
+
+No Windows (PowerShell), após ativar a venv:
+
+```powershell
+Get-Command black,isort,pytest | Select-Object Name,Source
+```
+
+Se algum comando não for encontrado:
+
+1. Garanta que as dependências de desenvolvimento estejam instaladas:
+
+```powershell
+python -m pip install -r requirements-dev.txt
+```
+
+2. Garanta que a venv esteja ativa (isso inclui `venv/Scripts` no PATH da sessão):
+
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+3. Se precisar ajustar o PATH manualmente na sessão atual:
+
+```powershell
+$env:Path = "$PWD\venv\Scripts;" + $env:Path
+```
+
+4. Revalide:
+
+```powershell
+Get-Command black,isort,pytest | Select-Object Name,Source
+```
+
 ### Black
 
 Formata o código Python automaticamente para manter um padrão visual único no projeto.
@@ -107,6 +141,7 @@ pytest tests -q
 - `GET /`: valida se a API está no ar
 - `POST /api/v1/users`: cria um usuário
 - `POST /api/v1/analyze`: classifica a intenção de um texto
+- `POST /api/v1/agent`: processa mensagem para suporte de agente
 
 ## Exemplos de uso
 
@@ -149,7 +184,7 @@ Request:
 
 ```json
 {
-  "text": "quero fazer uma compra hoje"
+"text": "quero fazer uma compra hoje"
 }
 ```
 
@@ -161,9 +196,26 @@ Response:
 }
 ```
 
+### POST /api/v1/agent
+
+Request:
+
+```json
+{
+  "message": "Estou com erro no acesso"
+}
+```
+
+Response:
+
+```json
+{
+  "response": "Lamento ouvir que você está enfrentando um problema.\n Por favor, forneça mais detalhes para que eu possa ajudar."
+}
+```
+
 ## Documentação automática
 
 Com a API rodando, acesse:
 
 - `http://127.0.0.1:8000/docs`
-- `http://127.0.0.1:8000/redoc`

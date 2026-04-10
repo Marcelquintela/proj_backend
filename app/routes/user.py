@@ -2,7 +2,7 @@
 
 from fastapi import APIRouter
 
-from app.models.user import CreateUserResponse, CreateUser
+from app.models.user import CreateUser, CreateUserResponse
 from app.services.user import create_user_service
 
 router = APIRouter()

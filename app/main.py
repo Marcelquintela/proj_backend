@@ -8,12 +8,13 @@ from fastapi import FastAPI
 
 from app.routes.analyze import router as analyze_router
 from app.routes.user import router as user_router
+from app.routes.agent import router as agent_router
 
-app = FastAPI()
+app = FastAPI(title="API de Análise e Agentes", version="1.0.0")
 
 app.include_router(user_router, prefix="/api/v1")
 app.include_router(analyze_router, prefix="/api/v1")
-
+app.include_router(agent_router, prefix="/api/v1")
 
 @app.get("/")
 def read_root():
