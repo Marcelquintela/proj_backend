@@ -3,6 +3,7 @@ Schema de input e output dos agentes.
 """
 
 from typing import Any
+
 from pydantic import BaseModel
 
 
@@ -12,9 +13,9 @@ class AgentInput(BaseModel):
     """
 
     message: str
-    agent_type: str = "suporte"
+    # agent_type: str = "suporte"
     user_name: str | None = None
-    context: dict[str, Any] | None = None
+    # context: dict[str, Any] | None = None
 
 
 class AgentOutput(BaseModel):
@@ -23,6 +24,5 @@ class AgentOutput(BaseModel):
     """
 
     response: str
-    agent_type: str
+    # agent_type: str
     intent: str
-

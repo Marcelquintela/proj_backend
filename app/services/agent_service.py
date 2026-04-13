@@ -6,7 +6,7 @@ Criar o serviço de agente para lidar com a lógica de negócios relacionada aos
 def process_message(message: str, user_name: str | None = None) -> tuple[str, str]:
     """
     Processa a mensagem recebida e retorna uma resposta e a intenção.
-    
+
     Args:
         message (str): A mensagem a ser processada.
         user_name (str | None): Nome opcional para personalizar a resposta.

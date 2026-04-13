@@ -12,8 +12,9 @@ def classify_intent(text: str) -> str:
         str: Intenção identificada.
     """
     normalized_text = text.lower().strip()
+    intent = ["compra", "comprar"]
 
-    if any(word in normalized_text for word in ["compra", "comprar"]):
+    if any(word in normalized_text for word in intent):
         return "compra"
 
     return "outro"
