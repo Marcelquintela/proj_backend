@@ -4,9 +4,8 @@ Rota responsável por gerenciar solicitações relacionadas ao orquestrador.
 
 from fastapi import APIRouter
 
-from app.agents.orchestrator_agents import orchestrate
-from app.models.orchestrator_schema import (OrchestratorInput,
-                                            OrchestratorResponse)
+from app.agents.orchestrator_agent import orchestrate
+from app.models.orchestrator_schema import OrchestratorInput, OrchestratorResponse
 
 router = APIRouter()
 

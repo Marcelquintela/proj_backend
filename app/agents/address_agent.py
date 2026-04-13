@@ -2,8 +2,12 @@
 Agente responsável por processar mensagens relacionadas a endereços.
 """
 
-from app.models.address import (AddressErrorOutput, AddressInput,
-                                AddressOutput, AddressResponse)
+from app.models.address import (
+    AddressErrorOutput,
+    AddressInput,
+    AddressOutput,
+    AddressResponse,
+)
 from app.services.cep_service import get_info_by_cep, validate_cep
 
 

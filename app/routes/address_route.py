@@ -4,7 +4,7 @@ Rota responsável por gerenciar solicitações relacionadas a endereços.
 
 from fastapi import APIRouter
 
-from app.agents.addres_agent import process_address_request
+from app.agents.address_agent import process_address_request
 from app.models.address import AddressResponse
 
 router = APIRouter()

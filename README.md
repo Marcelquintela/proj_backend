@@ -1,25 +1,38 @@
 # Proj_Autocapacita
 
-Autocapacitação em desenvolvimento backend em Python e .NET para criação de APIs e agentes de inteligência artificial.
+Projeto de estudo em FastAPI com evolução incremental de uma API simples para uma arquitetura com agentes especializados e um orquestrador.
 
-## Escopo de estudo
+## Escopo Atual
 
-- Dia 1 (atividade 1): API em FastAPI para cadastro de usuários e análise de intenção de texto.
-- Dia 2: evolução com endpoint de agente, contrato de entrada/saída mais rico e organização de rotas para crescimento do projeto.
+- Dia 1: cadastro de usuários e análise de intenção de texto.
+- Dia 2: endpoint legado de agente para respostas simples de suporte.
+- Dia 3: fluxo multiagente com busca de endereço por CEP, consulta de clima por coordenadas e orquestração entre agentes.
+
+## Arquitetura
+
+O projeto segue a separação abaixo:
+
+- routes: expõem os endpoints HTTP.
+- services: integram APIs externas e executam regras operacionais.
+- agents: tratam o caso de uso e coordenam a composição entre services.
+- models: definem contratos de entrada e saída com Pydantic.
+
+Fluxos principais do Dia 3:
+
+- app/services/cep_service.py: valida CEP e consulta endereço/coordenadas.
+- app/services/weather_service.py: consulta clima atual na Open-Meteo.
+- app/agents/address_agent.py: trata o caso de uso de endereço.
+- app/agents/weather_agent.py: trata o caso de uso de clima.
+- app/agents/orchestrator_agent.py: decide e compõe os fluxos address, weather e all.
 
 ## Estrutura
 
-- `app/main.py`: inicialização da aplicação
-- `app/routes/`: rotas HTTP
-- `app/models/`: modelos de entrada e saída
-- `app/services/`: regras de negócio
-- `tests/`: testes automatizados
-
-Arquivos relevantes de modelagem:
-
-- `app/models/analyze.py`: contratos de entrada/saída da análise
-- `app/models/user.py`: contratos de entrada/saída de usuários
-- `app/models/schemas.py`: contratos de entrada/saída do agente
+- app/main.py: inicialização da aplicação e registro das rotas.
+- app/routes/: endpoints HTTP.
+- app/agents/: agentes especializados e orquestrador.
+- app/services/: integração com APIs e regras operacionais.
+- app/models/: contratos de entrada e saída.
+- tests/: testes unitários e de rotas.
 
 ## Requisitos
 
@@ -28,16 +41,16 @@ Arquivos relevantes de modelagem:
 
 ## Dependências
 
-- `requirements.txt`: dependências da aplicação em execução
-- `requirements-dev.txt`: ferramentas de desenvolvimento e qualidade
+- requirements.txt: dependências da aplicação.
+- requirements-dev.txt: ferramentas de desenvolvimento e testes.
 
-## Como executar localmente
+## Como Executar
 
-### Git Bash no Windows
+### Windows PowerShell
 
-```bash
+```powershell
 python -m venv venv
-source venv/Scripts/activate
+.\venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 uvicorn app.main:app --reload
@@ -46,117 +59,52 @@ uvicorn app.main:app --reload
 ### Linux ou macOS
 
 ```bash
+python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 pip install -r requirements-dev.txt
 uvicorn app.main:app --reload
 ```
 
-## Ferramentas de qualidade
+## Qualidade e Testes
 
-### Verificar se black, isort e pytest estão no PATH
+Ferramentas de desenvolvimento:
 
-No Windows (PowerShell), após ativar a venv:
+- black
+- isort
+- pydocstyle
+- pytest
 
-```powershell
-Get-Command black,isort,pytest | Select-Object Name,Source
-```
-
-Se algum comando não for encontrado:
-
-1. Garanta que as dependências de desenvolvimento estejam instaladas:
-
-```powershell
-python -m pip install -r requirements-dev.txt
-```
-
-2. Garanta que a venv esteja ativa (isso inclui `venv/Scripts` no PATH da sessão):
-
-```powershell
-.\venv\Scripts\Activate.ps1
-```
-
-3. Se precisar ajustar o PATH manualmente na sessão atual:
-
-```powershell
-$env:Path = "$PWD\venv\Scripts;" + $env:Path
-```
-
-4. Revalide:
-
-```powershell
-Get-Command black,isort,pytest | Select-Object Name,Source
-```
-
-### Black
-
-Formata o código Python automaticamente para manter um padrão visual único no projeto.
-
-Uso:
+Fluxo recomendado antes de subir alterações:
 
 ```bash
-black app
-```
-
-### isort
-
-Organiza os imports automaticamente, agrupando e ordenando as importações.
-
-Uso:
-
-```bash
-isort app
-```
-
-### pydocstyle
-
-Valida se módulos, classes e funções seguem um padrão consistente de docstrings.
-
-Uso:
-
-```bash
+black app tests
+isort app tests
 pydocstyle app
-```
-
-### Fluxo recomendado
-
-Antes de subir alterações, rode:
-
-```bash
-black app
-isort app
-pydocstyle app
-pytest tests -q
-```
-
-## Testes automatizados
-
-Os testes da regra de análise ficam em `tests/test_analyze.py`.
-
-Eles cobrem, no mínimo:
-
-- intenção `compra` quando houver `compra`
-- intenção `compra` quando houver `comprar`
-- intenção `outro` para textos sem intenção de compra
-
-Para executar:
-
-```bash
 pytest tests -q
 ```
 
 ## Endpoints
 
-- `GET /`: valida se a API está no ar
-- `POST /api/v1/users`: cria um usuário
-- `POST /api/v1/analyze`: classifica a intenção de um texto
-- `POST /api/v1/agent`: processa mensagem para suporte de agente
+### Gerais
 
-## Exemplos de uso
+- GET /: valida se a API está no ar.
+- POST /api/v1/users: cria um usuário.
+- POST /api/v1/analyze: classifica a intenção de um texto.
+
+### Legado
+
+- POST /api/v1/agent: endpoint legado de agente simples. Continua disponível por compatibilidade, mas não é o fluxo principal do Dia 3.
+
+### Dia 3
+
+- GET /address/{cep}: retorna endereço e coordenadas a partir do CEP.
+- GET /weather?cep=89010025: retorna clima atual a partir do CEP.
+- POST /orchestrator: executa um fluxo orquestrado com action address, weather ou all.
+
+## Exemplos
 
 ### GET /
-
-Resposta:
 
 ```json
 {
@@ -164,14 +112,45 @@ Resposta:
 }
 ```
 
-### POST /api/v1/users
+### GET /address/89010025
+
+```json
+{
+  "logradouro": "Rua Doutor Luiz de Freitas Melro",
+  "bairro": "Centro",
+  "cidade": "Blumenau",
+  "estado": "SC",
+  "latitude": -26.9244749,
+  "longitude": -49.0629788
+}
+```
+
+### GET /weather?cep=89010025
+
+Exemplo ilustrativo. Como o clima é consultado em tempo real, os valores podem variar.
+
+```json
+{
+  "time": "2026-04-13T12:00",
+  "interval": 900,
+  "temperature": 22.8,
+  "windspeed": 8.5,
+  "winddirection": 190,
+  "is_day": 1,
+  "weathercode": 3
+}
+```
+
+### POST /orchestrator
+
+Exemplo ilustrativo. Como o clima é consultado em tempo real, os valores podem variar.
 
 Request:
 
 ```json
 {
-  "name": "Maria",
-  "age": 28
+  "action": "all",
+  "cep": "89010025"
 }
 ```
 
@@ -179,60 +158,36 @@ Response:
 
 ```json
 {
-  "message": "Usuário Maria criado com sucesso!",
-  "data": {
-    "name": "Maria",
-    "age": 28
-  }
+  "result_type": "all",
+  "address_info": {
+    "logradouro": "Rua Doutor Luiz de Freitas Melro",
+    "bairro": "Centro",
+    "cidade": "Blumenau",
+    "estado": "SC",
+    "latitude": -26.9244749,
+    "longitude": -49.0629788
+  },
+  "weather_info": {
+    "time": "2026-04-13T12:00",
+    "interval": 900,
+    "temperature": 22.8,
+    "windspeed": 8.5,
+    "winddirection": 190,
+    "is_day": 1,
+    "weathercode": 3
+  },
+  "weather_error": null
 }
 ```
 
-### POST /api/v1/analyze
+## APIs Externas
 
-Request:
+- BrasilAPI: consulta de CEP.
+- Open-Meteo: clima atual por coordenadas.
 
-```json
-{
-"text": "quero fazer uma compra hoje"
-}
-```
+## Documentação Automática
 
-Response:
+Com a aplicação rodando:
 
-```json
-{
-  "intent": "compra"
-}
-```
-
-### POST /api/v1/agent
-
-Request:
-
-```json
-{
-  "message": "Estou com erro no acesso",
-  "agent_type": "suporte",
-  "user_name": "Maria",
-  "context": {
-    "canal": "web"
-  }
-}
-```
-
-Response:
-
-```json
-{
-  "response": "Maria, lamento ouvir que você está enfrentando um problema.\nPor favor, forneça mais detalhes para que eu possa ajudar.",
-  "agent_type": "suporte",
-  "intent": "suporte_tecnico"
-}
-```
-
-## Documentação automática
-
-Com a API rodando, acesse:
-
-- `http://127.0.0.1:8000/docs`
-- `http://127.0.0.1:8000/redoc`
+- http://127.0.0.1:8000/docs
+- http://127.0.0.1:8000/redoc

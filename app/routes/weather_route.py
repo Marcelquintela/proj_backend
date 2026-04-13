@@ -4,9 +4,8 @@ Rota responsável por lidar com solicitações relacionadas a informações mete
 
 from fastapi import APIRouter
 
-from app.agents.addres_agent import process_address_request
-from app.agents.weather_agent import process_weather_request
-from app.models.address import AddressErrorOutput, AddressOutput
+from app.agents.orchestrator_agent import action_weather
+from app.models.orchestrator_schema import OrchestratorErrorOutput
 from app.models.weather import WeatherErrorOutput, WeatherResponse
 
 router = APIRouter()
@@ -24,20 +23,9 @@ def get_weather(cep: str) -> WeatherResponse:
     Returns:
         WeatherResponse: O modelo de sucesso ou erro do agente de clima.
     """
-    address_info = process_address_request(cep)
+    result = action_weather({"action": "weather", "cep": cep})
 
-    if isinstance(address_info, AddressErrorOutput):
-        return WeatherErrorOutput(message=address_info.message)
+    if isinstance(result, OrchestratorErrorOutput):
+        return WeatherErrorOutput(message=result.message)
 
-    if not isinstance(address_info, AddressOutput):
-        return WeatherErrorOutput(message="Resposta inválida do agente de endereço.")
-
-    if address_info.latitude is None or address_info.longitude is None:
-        return WeatherErrorOutput(
-            message=(
-                "Não foi possível obter informações de "
-                "clima para as coordenadas do CEP informado."
-            )
-        )
-
-    return process_weather_request(address_info.latitude, address_info.longitude)
+    return result.data

@@ -1,5 +1,5 @@
 """
-Agente orquestrador responsável por decidir qual agente executar
+Agente orquestrador responsável por decidir qual agente executar.
 """
 
 from collections.abc import Mapping
@@ -7,14 +7,16 @@ from typing import Any
 
 from pydantic import BaseModel
 
-from app.agents.addres_agent import process_address_request
+from app.agents.address_agent import process_address_request
 from app.agents.weather_agent import process_weather_request
 from app.models.address import AddressErrorOutput, AddressOutput
-from app.models.orchestrator_schema import (OrchestratorAddressOutput,
-                                            OrchestratorAllOutput,
-                                            OrchestratorErrorOutput,
-                                            OrchestratorResponse,
-                                            OrchestratorWeatherOutput)
+from app.models.orchestrator_schema import (
+    OrchestratorAddressOutput,
+    OrchestratorAllOutput,
+    OrchestratorErrorOutput,
+    OrchestratorResponse,
+    OrchestratorWeatherOutput,
+)
 from app.models.weather import WeatherErrorOutput, WeatherOutput
 
 
@@ -134,11 +136,10 @@ def orchestrate(payload: dict[str, Any]) -> OrchestratorResponse:
     Decide qual agente executar com base na mensagem recebida e retorna a resposta gerada.
 
     args:
-    payload (dict): O dicionário contendo a ação e os dados necessários para processar
+    payload (dict): O dicionário contendo a ação e os dados necessários para processar.
 
     Returns:
     OrchestratorResponse: A resposta gerada pelo agente selecionado ou uma saída de erro.
-
     """
     action = payload.get("action")
 

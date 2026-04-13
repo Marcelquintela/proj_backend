@@ -1,6 +1,6 @@
 """Testes do orquestrador de agentes."""
 
-from app.agents.orchestrator_agents import orchestrate
+from app.agents.orchestrator_agent import orchestrate
 
 
 def test_orchestrate_address_returns_address_data(monkeypatch) -> None:
@@ -18,7 +18,7 @@ def test_orchestrate_address_returns_address_data(monkeypatch) -> None:
 		}
 
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_address_request",
+		"app.agents.orchestrator_agent.process_address_request",
 		fake_process_address_request,
 	)
 
@@ -50,11 +50,11 @@ def test_orchestrate_weather_uses_cep_coordinates(monkeypatch) -> None:
 		return {"temperature": 22.8, "windspeed": 8.5}
 
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_address_request",
+		"app.agents.orchestrator_agent.process_address_request",
 		fake_process_address_request,
 	)
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_weather_request",
+		"app.agents.orchestrator_agent.process_weather_request",
 		fake_process_weather_request,
 	)
 
@@ -93,11 +93,11 @@ def test_orchestrate_all_returns_address_and_weather(monkeypatch) -> None:
 		return {"temperature": 22.8, "windspeed": 8.5}
 
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_address_request",
+		"app.agents.orchestrator_agent.process_address_request",
 		fake_process_address_request,
 	)
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_weather_request",
+		"app.agents.orchestrator_agent.process_weather_request",
 		fake_process_weather_request,
 	)
 
@@ -123,7 +123,7 @@ def test_orchestrate_all_returns_error_when_coordinates_missing(monkeypatch) -> 
 		}
 
 	monkeypatch.setattr(
-		"app.agents.orchestrator_agents.process_address_request",
+		"app.agents.orchestrator_agent.process_address_request",
 		fake_process_address_request,
 	)
 

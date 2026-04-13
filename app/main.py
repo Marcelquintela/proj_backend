@@ -9,14 +9,17 @@ from fastapi import FastAPI
 from app.routes.address_route import router as address_router
 from app.routes.agent import router as agent_router
 from app.routes.analyze import router as analyze_router
-from app.routes.orchesrator_route import router as orchestrator_router
+from app.routes.orchestrator_route import router as orchestrator_router
 from app.routes.user import router as user_router
 from app.routes.weather_route import router as weather_router
 
 app = FastAPI(
-    title="API de Análise e Agentes",
+    title="API de Análise e Multiagentes",
     version="1.0.0",
-    description="API para cadastro de usuários, análise de intenção e suporte por agente.",
+    description=(
+        "API para cadastro de usuários, análise de intenção e fluxos com agentes "
+        "especializados de endereço, clima e orquestração."
+    ),
 )
 
 app.include_router(user_router)

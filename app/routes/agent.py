@@ -10,7 +10,12 @@ from app.services.agent_service import process_message
 router = APIRouter(prefix="/api/v1", tags=["agent"])
 
 
-@router.post("/agent", response_model=AgentOutput)
+@router.post(
+    "/agent",
+    response_model=AgentOutput,
+    deprecated=True,
+    summary="Endpoint legado de agente",
+)
 def agent_endpoint(payload: AgentInput) -> AgentOutput:
     """
     Endpoint para processar mensagens dos agentes.
